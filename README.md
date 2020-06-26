@@ -1,9 +1,10 @@
  ## web community
  
  ## material
- https://spring.io/guides
- https://spring.io/guides/gs/serving-web-content/
- https://www.elasticsearch.cn/explore
+[spring](https://spring.io/guides)
+[spring](https://spring.io/guides/gs/serving-web-content/)
+[社区](https://www.elasticsearch.cn/explore)
  
  ## tools
- https://git-scm.com/downloads
+[git]( https://git-scm.com/downloads)
+[visual-paradigm]( https://www.visual-paradigm.com/cn/)
