@@ -19,21 +19,33 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=b232b7575e5e6f83d4bc&client_secret=541dfb5994031965b0c605513eb339e4d650204c&redirect_uri=http://localhost:8080/callback/&scope=user&state=1">Login</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    account
+            <li class="nav-item dropdown" th:if="${session.user != null}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}">
+<!--                    account-->
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">message</a>
                     <a class="dropdown-item" href="#">personal information</a>
                     <a class="dropdown-item" href="#">logout</a>
-<!--                    <div class="dropdown-divider"></div>-->
-<!--                    <a class="dropdown-item" href="#">Something else here</a>-->
+                    <!--                    <div class="dropdown-divider"></div>-->
+                    <!--                    <a class="dropdown-item" href="#">Something else here</a>-->
                 </div>
             </li>
+            <li class="nav-item" th:if="${session.user == null}">
+                <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=b232b7575e5e6f83d4bc&client_secret=541dfb5994031965b0c605513eb339e4d650204c&redirect_uri=http://localhost:8080/callback/&scope=user&state=1">Login</a>
+            </li>
+<!--            <li class="nav-item dropdown" th:if="${session.user != null}">-->
+<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                    account-->
+<!--                </a>-->
+<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                    <a class="dropdown-item" href="#">message</a>-->
+<!--                    <a class="dropdown-item" href="#">personal information</a>-->
+<!--                    <a class="dropdown-item" href="#">logout</a>-->
+<!--&lt;!&ndash;                    <div class="dropdown-divider"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="dropdown-item" href="#">Something else here</a>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </li>-->
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
