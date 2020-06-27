@@ -11,7 +11,7 @@
 [git]( https://git-scm.com/downloads)
 [visual-paradigm]( https://www.visual-paradigm.com/cn/)
 
-##脚本
+## 脚本
 '''sql 
 CREATE CACHED TABLE "PUBLIC"."USER"(
     "ID" INT NOT NULL NULL_TO_DEFAULT SEQUENCE,
