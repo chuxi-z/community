@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 //@PropertySource({"classpath:application.properties"})
@@ -21,6 +24,7 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider  githubProvider;
 
+    @Resource
     @Autowired
     private UserMapper userMapper;
 
@@ -34,7 +38,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(value="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request){
+                           HttpServletRequest request,
+                           HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientID);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -45,17 +50,24 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
 
         if(githubUser != null){//log success
+//            System.out.println("success");
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            request.getSession().setAttribute("user", githubUser);
+            Cookie cookie = new Cookie("token", token);
+            cookie.setPath("/");
+            response.addCookie(cookie);//写入cookie
+
+//            request.getSession().setAttribute("user", githubUser);//自动获取cookie
             return "redirect:/";
         }
         else{//log fail
+//            log.error("callback get github error,{}", githubUser);
             return "redirect:/";
         }
 
