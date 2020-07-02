@@ -1,6 +1,8 @@
-package com.firstpro.community.model;
+package com.firstpro.community.dto;
 
-public class Question {
+import com.firstpro.community.model.User;
+
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -11,6 +13,7 @@ public class Question {
     private Integer commentCount;
     private Integer viewCount;
     private Integer likeCount;
+    private User user;
 
     public Integer getViewCount() {
         return viewCount;
@@ -40,8 +43,8 @@ public class Question {
         return description;
     }
 
-    public void setDescription(String descriptopm) {
-        this.description = descriptopm;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTag() {
@@ -92,5 +95,11 @@ public class Question {
         this.likeCount = likeCount;
     }
 
-}
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

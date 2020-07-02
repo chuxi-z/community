@@ -8,9 +8,9 @@
 [spring](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database)
 
  ## tools
-[git]( https://git-scm.com/downloads)
-[visual-paradigm]( https://www.visual-paradigm.com/cn/)
-
+[git](https://git-scm.com/downloads)
+[visual-paradigm](https://www.visual-paradigm.com/cn/)
+[lombok](https://projectlombok.org)
 ## 脚本
 '''sql 
 CREATE CACHED TABLE "PUBLIC"."USER"(
