@@ -1,13 +1,17 @@
 package com.firstpro.community.Controller;
 
+import com.firstpro.community.dto.QuestionDTO;
 import com.firstpro.community.mapper.QuestionMapper;
 import com.firstpro.community.mapper.UserMapper;
 import com.firstpro.community.model.Question;
 import com.firstpro.community.model.User;
+import com.firstpro.community.service.QuestionService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,9 +26,19 @@ public class PublishController {
     @Autowired
     private UserMapper userMapper;
 
-    @Resource
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name="id") Integer id,
+                       Model model){
+        QuestionDTO  question = questionService.getById(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id", question.getId());
+        return "/publish";
+    }
 
     @GetMapping("/publish")
     public String publish(){
@@ -36,6 +50,7 @@ public class PublishController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
+            @RequestParam(value = "id", required = false) Integer id,
             HttpServletRequest request,
             Model model){
         model.addAttribute("title",title);
@@ -80,10 +95,11 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
+//        question.setGmtCreate(System.currentTimeMillis());
+//        question.setGmtModified(question.getGmtCreate());
+        question.setId(id);
 
-        questionMapper.create(question);
+        questionService.createOrUpdate(question);
 
         return "redirect:/";
     }

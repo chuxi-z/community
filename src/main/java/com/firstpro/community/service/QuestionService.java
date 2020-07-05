@@ -3,6 +3,7 @@ package com.firstpro.community.service;
 
 import com.firstpro.community.dto.PaginationDTO;
 import com.firstpro.community.dto.QuestionDTO;
+import com.firstpro.community.exception.CustomizeException;
 import com.firstpro.community.mapper.QuestionMapper;
 import com.firstpro.community.mapper.UserMapper;
 import com.firstpro.community.model.Question;
@@ -99,10 +100,27 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.getById(id);
+        //error detective
+        if(question == null){
+            throw new CustomizeException("The question is out of index...");
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         User user = userMapper.findById(question.getCreator());
         questionDTO.setUser(user);
         BeanUtils.copyProperties(question, questionDTO);
         return questionDTO;
+    }
+
+    public void createOrUpdate(Question question) {
+        if(question.getId() == null){//new
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }
+        else{//update
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+
     }
 }
