@@ -123,4 +123,13 @@ public class QuestionService {
         }
 
     }
+
+//    public void incView(Integer id) {
+//         Question question = questionMapper.selectByPrimaryKey(id);
+//         Question updateQuestion = new Question();
+//         updateQuestion.setViewCount(question.getViewCount()+1);
+//        QuestionExample questionExample = new QuestionExample();
+//        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+//
+//    }
 }
