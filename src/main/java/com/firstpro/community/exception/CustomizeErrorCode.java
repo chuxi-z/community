@@ -2,7 +2,7 @@ package com.firstpro.community.exception;
 
 public enum CustomizeErrorCode implements ICustomizeErrorCode{
 
-    QUESTION_NOT_FOUND("The question is out of index...");
+    QUESTION_NOT_FOUND("The question you are looking for does not exist...");
 
     @Override
     public String getMessage(){

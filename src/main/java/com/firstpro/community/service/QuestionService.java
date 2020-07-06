@@ -3,7 +3,9 @@ package com.firstpro.community.service;
 
 import com.firstpro.community.dto.PaginationDTO;
 import com.firstpro.community.dto.QuestionDTO;
+import com.firstpro.community.exception.CustomizeErrorCode;
 import com.firstpro.community.exception.CustomizeException;
+import com.firstpro.community.mapper.QuestionExtMapper;
 import com.firstpro.community.mapper.QuestionMapper;
 import com.firstpro.community.mapper.UserMapper;
 import com.firstpro.community.model.Question;
@@ -28,6 +30,10 @@ public class QuestionService {
     @Autowired
     @Resource
     QuestionMapper questionMapper;
+
+    @Autowired
+    @Resource
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
 
@@ -118,7 +124,7 @@ public class QuestionService {
 
         //error detective
         if(question == null){
-            throw new CustomizeException("The question is out of index...");
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -143,17 +149,28 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updataQuestion, example);
+            int updated =  questionMapper.updateByExampleSelective(updataQuestion, example);
+            if(updated != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
 
     }
 
-//    public void incView(Integer id) {
-//         Question question = questionMapper.selectByPrimaryKey(id);
-//         Question updateQuestion = new Question();
-//         updateQuestion.setViewCount(question.getViewCount()+1);
-//        QuestionExample questionExample = new QuestionExample();
-//        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+    public void incView(Integer id) {
+//        Question question = questionMapper.selectByPrimaryKey(id);
+//        Question updateQuestion = new Question();
+//        updateQuestion.setViewCount(question.getViewCount()+1);
 //
-//    }
+//        QuestionExample questionExample = new QuestionExample();
+//        questionExample.createCriteria()
+//                .andIdEqualTo(id);
+
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+//        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+    }
+
 }
