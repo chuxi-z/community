@@ -73,7 +73,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
 //        Integer totalCount = questionMapper.countByUserId(userId);
 
@@ -118,9 +118,8 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
-
 
         //error detective
         if(question == null){
@@ -137,6 +136,11 @@ public class QuestionService {
         if(question.getId() == null){//new
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
+//            question.setGmtCreate(System.currentTimeMillis());
+//            question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
         }
         else{//update
@@ -149,7 +153,7 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            int updated =  questionMapper.updateByExampleSelective(updataQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updataQuestion, example);
             if(updated != 1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
@@ -157,7 +161,7 @@ public class QuestionService {
 
     }
 
-    public void incView(Integer id) {
+    public void  incView(Long id) {
 //        Question question = questionMapper.selectByPrimaryKey(id);
 //        Question updateQuestion = new Question();
 //        updateQuestion.setViewCount(question.getViewCount()+1);
