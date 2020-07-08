@@ -10,6 +10,17 @@
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 
 </head>
+<!--校验是否为由于为登陆而新建的网页-->
+<script type="application/javascript">
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if(closable){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
+
 <body class="body">
 <!-- navigation template -->
 <div th:insert="~{navigation::nav}"></div>

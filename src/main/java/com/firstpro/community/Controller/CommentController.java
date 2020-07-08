@@ -1,0 +1,54 @@
+package com.firstpro.community.Controller;
+
+
+import com.firstpro.community.dto.CommentDTO;
+import com.firstpro.community.dto.ResultDTO;
+import com.firstpro.community.exception.CustomizeErrorCode;
+import com.firstpro.community.exception.CustomizeException;
+import com.firstpro.community.mapper.CommentMapper;
+import com.firstpro.community.model.Comment;
+import com.firstpro.community.model.User;
+import com.firstpro.community.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+public class CommentController {
+
+//    @Autowired
+//    @Resource
+//    private CommentMapper commentMapper;
+
+    @Autowired
+    @Resource
+    private CommentService commentService;
+
+    @ResponseBody
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public Object post(@RequestBody CommentDTO commentDTO,
+                       HttpServletRequest request){
+
+        User user = (User) request.getSession().getAttribute("user");
+        if(user == null){
+            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
+        }
+
+        Comment comment = new Comment();
+        comment.setParentId(commentDTO.getParentId());
+        comment.setContent(commentDTO.getContent());
+        comment.setType(commentDTO.getType());
+        comment.setGmtModified(System.currentTimeMillis());
+        comment.setGmtCreate(System.currentTimeMillis());
+        comment.setLikeCount(0L);
+        comment.setCommentator(user.getId());
+//        commentMapper.insert(comment);
+        commentService.insert(comment);
+        return ResultDTO.passOf();
+    }
+}
