@@ -2,6 +2,12 @@
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
+
+    if(!content){
+        alert("Comment is not allowed to be empty...");
+        return;
+    }
+
     $.ajax({
         type:"POST",
         url:"/comment",
@@ -13,7 +19,7 @@ function post() {
         }),
         success:function (response) {
             if(response.code == 200){
-                $("#comment_section").hide();
+                window.location.reload();
             }
             else{
                 if(response.code == 2003){
