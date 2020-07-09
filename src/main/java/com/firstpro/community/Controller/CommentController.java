@@ -2,7 +2,9 @@ package com.firstpro.community.Controller;
 
 
 import com.firstpro.community.dto.CommentCreateDTO;
+import com.firstpro.community.dto.CommentDTO;
 import com.firstpro.community.dto.ResultDTO;
+import com.firstpro.community.enums.CommentTypeEnum;
 import com.firstpro.community.exception.CustomizeErrorCode;
 import com.firstpro.community.model.Comment;
 import com.firstpro.community.model.User;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -51,4 +54,12 @@ public class CommentController {
         commentService.insert(comment);
         return ResultDTO.passOf();
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.passOf(commentDTOS);
+    }
+
 }

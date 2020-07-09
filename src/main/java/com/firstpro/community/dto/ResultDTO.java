@@ -5,10 +5,13 @@ import com.firstpro.community.exception.CustomizeException;
 import lombok.Data;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Data
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code;
     private String message;
+    private T data;
 
 
     public static ResultDTO errorOf(Integer code, String message){
@@ -32,5 +35,13 @@ public class ResultDTO {
 
     public static ResultDTO errorOf(CustomizeException ex) {
         return errorOf(ex.getCode(), ex.getMessage());
+    }
+
+    public static <T> ResultDTO passOf(T t){
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setMessage("Request is allowed!!!");
+        resultDTO.setCode(200);
+        resultDTO.setData(t);
+        return resultDTO;
     }
 }

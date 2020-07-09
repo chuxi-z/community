@@ -2,8 +2,7 @@ package com.firstpro.community.Controller;
 
 import com.firstpro.community.dto.CommentDTO;
 import com.firstpro.community.dto.QuestionDTO;
-import com.firstpro.community.exception.CustomizeErrorCode;
-import com.firstpro.community.exception.CustomizeException;
+import com.firstpro.community.enums.CommentTypeEnum;
 import com.firstpro.community.service.CommentService;
 import com.firstpro.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class QuestionController {
                            Model model){
         QuestionDTO questionDTO = questionService.getById(id);
 
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         //add views
         questionService.incView(id);
