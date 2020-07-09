@@ -4,10 +4,7 @@ import com.firstpro.community.dto.CommentDTO;
 import com.firstpro.community.enums.CommentTypeEnum;
 import com.firstpro.community.exception.CustomizeErrorCode;
 import com.firstpro.community.exception.CustomizeException;
-import com.firstpro.community.mapper.CommentMapper;
-import com.firstpro.community.mapper.QuestionExtMapper;
-import com.firstpro.community.mapper.QuestionMapper;
-import com.firstpro.community.mapper.UserMapper;
+import com.firstpro.community.mapper.*;
 import com.firstpro.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +52,7 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+
         }
         else{
             //回复问题
