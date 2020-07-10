@@ -31,11 +31,25 @@
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a th:href="@{'/publish/'+${question.id}}" class="community-menu" th:if="${session.user != null && question.creator == session.user.id}">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    edit
-                </a>
+
+                <!-- biao qian-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <span class="label label-info question-tag" th:each="tag : ${question.tag.split(',')}">
+                        <span class="glyphicon glyphicon-tags"></span>
+                        <span class="label label-info" th:text="${tag}"></span>
+                    </span>
+                </div>
+
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             </div>
+            <a th:href="@{'/publish/'+${question.id}}" class="community-menu pull-left" th:if="${session.user != null && question.creator == session.user.id}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true">edit</span>
+            </a>
+<!--            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
+<!--                <a th:href="@{'/publish/'+${question.id}}" class="community-menu pull-left" th:if="${session.user != null && question.creator == session.user.id}">-->
+<!--                    <span class="glyphicon glyphicon-edit" aria-hidden="true">edit</span>-->
+<!--                </a>-->
+<!--            </div>-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             <!--ping lun-->
@@ -138,9 +152,21 @@
                     </div>
                 </div>
             </div>
+
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4>related issues</h4>
+                <h4>Recommand follow</h4>
+                <img src="https://pic2.zhimg.com/v2-60282c6ca9b960bbad47d32121bfac99_b.jpg" class="img-thumbnail question-pic">
+            </div>
+
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>Related issues</h4>
+                <ul class="question-related">
+                    <li th:each="relate : ${relatedQuestions}">
+                        <a th:href="@{'/question/'+ ${relate.getId()}}" th:text="${relate.title}"></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

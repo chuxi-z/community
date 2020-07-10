@@ -31,6 +31,26 @@
     margin-top: 15px;
 }
 
+.question-title{
+    margin-top: 25px;
+}
+
+.question-tag{
+    margin-right: 5px;
+}
+
+.question-related{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.question-pic{
+    width: 100%;
+}
+
 .community-menu{
     display: block;
     color: #999;
@@ -92,6 +112,3 @@
     color: #499ef3;
 }
 
-.question-title{
-    margin-top: 25px;
-}
