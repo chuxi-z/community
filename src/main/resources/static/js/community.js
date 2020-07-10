@@ -169,6 +169,25 @@ function collapseComments(e) {
     }
 }
 
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var per = $("#tag").val();
+
+    if(per.indexOf(value) === -1){
+        if(per){
+            $("#tag").val(per + "," + value);
+        }
+        else{
+            $("#tag").val(value);
+        }
+    }
+
+}
+
+function showTag() {
+    $("#select-tag").show();
+}
+
 
 
 
