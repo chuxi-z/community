@@ -18,18 +18,18 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span th:text="${sectionName}"></span> </h2>
             <hr>
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="https://pic3.zhimg.com/v2-bd18b03c8bb886cb14f5859ad15de6cb_b.jpg">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">How to learn spring-boot fast</h4>
-                    click and watch the videos<br>
-                    <span class="text-desc">2 reply ~ 31 views ~ 1 hour ago</span>
-                </div>
-            </div>
+<!--            <div class="media">-->
+<!--                <div class="media-left">-->
+<!--                    <a href="#">-->
+<!--                        <img class="media-object" src="https://pic3.zhimg.com/v2-bd18b03c8bb886cb14f5859ad15de6cb_b.jpg">-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="media-body">-->
+<!--                    <h4 class="media-heading">How to learn spring-boot fast</h4>-->
+<!--                    click and watch the videos<br>-->
+<!--                    <span class="text-desc">2 reply ~ 31 views ~ 1 hour ago</span>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="media" th:each="question : ${pagination.questions}">
                 <div class="media-left">
@@ -38,9 +38,15 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+ ${question.getId()}}" th:text="${question.title}"></a>
+                    </h4>
+<!--                    <h4 class="media-heading" th:text="${question.title}"></h4>-->
                     <span th:text="${question.description}"></span><br>
-                    <span class="text-desc"><span th:text="${question.commentCount}"></span> reply ~ <span th:text="${question.viewCount}"></span> views ~ <span th:text="${#dates.format(question.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span></span>
+                    <span class="text-desc"><span th:text="${question.commentCount}"></span> reply ~ <span th:text="${question.viewCount}"></span> views ~ <span th:text="${#dates.format(question.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span> ~
+                        <a th:href="@{'/publish/'+${question.id}}" class="community-menu" th:if="${session.user != null && question.creator == session.user.id}"><span class="glyphicon glyphicon-edit" aria-hidden="true">edit</span>
+                        </a>
+                    </span>
                 </div>
             </div>
             <nav aria-label="Page navigation">
