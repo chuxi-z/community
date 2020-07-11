@@ -36,4 +36,4 @@ CREATE CACHED TABLE USER(
 3. http://localhost:8080
  ```
  ## Notice
- Database User and Question may lose primary key.
+ Primary key in Database User and Question may lose auto increment.
