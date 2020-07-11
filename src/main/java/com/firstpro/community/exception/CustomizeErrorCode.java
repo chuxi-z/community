@@ -8,7 +8,9 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode{
     SYS_ERROR(2004 ,"Server exception..."),
     TYPE_PARAM_WRONG(2005 ,"Type of comment is wrong or does not exist..."),
     COMMENT_NOT_FOUND(2006, "The comment does not exist..."),
-    COMMENT_IS_EMPTY(2007, "Comment can not be empty...");
+    COMMENT_IS_EMPTY(2007, "Comment can not be empty..."),
+    READ_NOTIFICATION_FAIL(2008, "Comment is not yours..."),
+    NOTIFICATION_NOT_FOUND(2009, "Comment does not exist...");
 
     @Override
     public String getMessage(){

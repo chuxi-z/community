@@ -1,9 +1,10 @@
 package com.firstpro.community.Controller;
 
 import com.firstpro.community.dto.PaginationDTO;
-import com.firstpro.community.mapper.UserMapper;
 import com.firstpro.community.model.User;
+import com.firstpro.community.service.NotificationService;
 import com.firstpro.community.service.QuestionService;
+import com.sun.javaws.IconUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.PseudoColumnUsage;
 
 @Controller
 public class ProfileController {
@@ -24,7 +25,7 @@ public class ProfileController {
 
     @Autowired
     @Resource
-    private UserMapper userMapper;
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
@@ -56,13 +57,18 @@ public class ProfileController {
         if("questions".equals(action)){
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "My questions");
+            PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination", paginationDTO);
         }else if("replies".equals(action)){
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
+            Long unreadCount = notificationService.unreadCount(user.getId());
+
+            model.addAttribute("pagination", paginationDTO);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "My replies");
         }
 
-        PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination", paginationDTO);
+
         return "profile";
     }
 }

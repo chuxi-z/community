@@ -51,12 +51,12 @@ public class CommentController {
         comment.setLikeCount(0L);
         comment.setCommentator(user.getId());
 //        commentMapper.insert(comment);
-        commentService.insert(comment);
+        commentService.insert(comment, user);
         return ResultDTO.passOf();
     }
 
     @ResponseBody
-    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod. GET)
     public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){
         List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
         return ResultDTO.passOf(commentDTOS);

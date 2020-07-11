@@ -1,8 +1,10 @@
 package com.firstpro.community.interceptor;
 
+import com.firstpro.community.enums.NotificationStatusEnum;
 import com.firstpro.community.mapper.UserMapper;
 import com.firstpro.community.model.User;
 import com.firstpro.community.model.UserExample;
+import com.firstpro.community.service.NotificationService;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,12 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Resource
+    @Autowired
+    NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User user = null;
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0){
             for (Cookie cookie : cookies) {
@@ -37,6 +42,8 @@ public class SessionInterceptor implements HandlerInterceptor {
 //                    user = userMapper.findByToken(token);
                     if(users.size() != 0){
                         request.getSession().setAttribute("user", users.get(0));
+                        Long unread = notificationService.unreadCount(users.get(0).getId());
+                        request.getSession().setAttribute("unreadCount", unread);
                     }
                     break;
                 }
