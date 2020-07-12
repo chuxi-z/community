@@ -11,6 +11,7 @@
 [git](https://git-scm.com/downloads)  
 [visual-paradigm](https://www.visual-paradigm.com/cn/)  
 [lombok](https://projectlombok.org)  
+[editor.md](https://pandao.github.io/editor.md/)  
  ## script
  Run the migrate and generator commands for database and project construction
 ```command
